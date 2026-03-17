@@ -1,1 +1,645 @@
-<p> hello world </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mubashir Lodhi — Network & Cloud Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050810;
+    --surface: #0c1120;
+    --surface2: #111827;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --text: #e8eaf0;
+    --muted: #6b7a99;
+    --border: rgba(0,212,255,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── CANVAS BG ── */
+  #bg-canvas {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    opacity: 0.35;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 4rem;
+    background: rgba(5,8,16,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 4rem 4rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.2em;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: block; width: 2rem; height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  h1 .line2 {
+    -webkit-text-stroke: 1px rgba(0,212,255,0.5);
+    color: transparent;
+  }
+  .hero-desc {
+    font-size: 1.05rem; line-height: 1.7;
+    max-width: 560px; color: var(--muted);
+    margin-bottom: 3rem;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #000; font-family: 'Space Mono', monospace;
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.85rem 2rem; border: none; cursor: pointer;
+    text-decoration: none; display: inline-block;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text); font-family: 'Space Mono', monospace;
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.85rem 2rem; border: 1px solid var(--border);
+    cursor: pointer; text-decoration: none; display: inline-block;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stats {
+    display: flex; gap: 4rem; margin-top: 5rem;
+    padding-top: 3rem; border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem; font-weight: 800;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 0.75rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    margin-top: 0.25rem;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative; z-index: 1;
+    padding: 6rem 4rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -0.01em;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--accent);
+    transition: height 0.4s ease;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .skill-card:hover::before { height: 100%; }
+  .skill-icon {
+    font-size: 1.5rem; margin-bottom: 1rem;
+  }
+  .skill-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+  .skill-items { list-style: none; }
+  .skill-items li {
+    font-size: 0.85rem; color: var(--muted);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .skill-items li::before {
+    content: '▸'; color: var(--accent); font-size: 0.65rem;
+  }
+
+  /* ── EXPERIENCE ── */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .timeline-item {
+    padding: 0 0 3.5rem 3rem;
+    position: relative;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute; left: -4px; top: 6px;
+    width: 9px; height: 9px;
+    background: var(--accent); border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .timeline-period {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em;
+    color: var(--accent); margin-bottom: 0.5rem;
+  }
+  .timeline-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem; font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .timeline-company {
+    font-size: 0.85rem; color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .timeline-bullets { list-style: none; }
+  .timeline-bullets li {
+    font-size: 0.85rem; color: var(--muted);
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    position: relative; line-height: 1.6;
+  }
+  .timeline-bullets li::before {
+    content: '—';
+    position: absolute; left: 0;
+    color: var(--accent);
+  }
+
+  /* ── CERTS ── */
+  .certs-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;
+  }
+  .cert-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.75rem 2rem;
+    display: flex; align-items: flex-start; gap: 1.25rem;
+    transition: border-color 0.3s;
+  }
+  .cert-card:hover { border-color: var(--accent3); }
+  .cert-badge {
+    width: 42px; height: 42px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  .cert-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .cert-issuer {
+    font-size: 0.75rem; color: var(--muted);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 6rem;
+    padding: 5rem 4rem;
+    position: relative; z-index: 1;
+  }
+  #contact h2 { font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1rem; }
+  .contact-sub { color: var(--muted); margin-bottom: 3rem; font-size: 0.95rem; }
+  .contact-links {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.75rem;
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 0.75rem 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem; color: var(--muted);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero, section { padding: 6rem 1.5rem 3rem; }
+    h1 { font-size: 3rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .certs-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-wrap: wrap; gap: 2rem; }
+    #contact { padding: 3rem 1.5rem; margin: 0 1.5rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ML</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="about">
+  <div id="hero">
+    <div class="hero-tag">Network & Cloud Engineer · Lahore, Pakistan</div>
+    <h1>
+      Mubashir<br>
+      <span class="line2">Lodhi</span>
+    </h1>
+    <p class="hero-desc">
+      Research-oriented engineer with <strong>10+ years</strong> in telecommunications, enterprise IT,
+      and cloud infrastructure. MPhil in Computer Science. Certified in AWS, Cisco, and ISC2 Cybersecurity.
+      Pursuing doctoral research in network intrusion detection and cyber-resilience.
+    </p>
+    <div class="hero-cta">
+      <a href="mailto:mh.mubashir@hotmail.com" class="btn-primary">Get In Touch</a>
+      <a href="https://linkedin.com/in/mubashirlodhi" target="_blank" class="btn-outline">LinkedIn Profile</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">5</div>
+        <div class="stat-label">Certifications</div>
+      </div>
+      <div>
+        <div class="stat-num">MPhil</div>
+        <div class="stat-label">Computer Science</div>
+      </div>
+      <div>
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">NOC Operations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header fade-up">
+    <span class="section-num">01 //</span>
+    <h2>Key Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card fade-up">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-title">Network & Infrastructure</div>
+      <ul class="skill-items">
+        <li>End-to-end NOC supervision (L1–L3)</li>
+        <li>LAN/WAN, MPLS, BGP, OSPF, VPN, VLAN</li>
+        <li>Network Security — Palo Alto, pfSense</li>
+        <li>MikroTik configuration & management</li>
+        <li>SLA performance & vendor coordination</li>
+      </ul>
+    </div>
+    <div class="skill-card fade-up" style="transition-delay:0.1s">
+      <div class="skill-icon">☁️</div>
+      <div class="skill-title">Cloud & Virtualization</div>
+      <ul class="skill-items">
+        <li>AWS — EC2, VPC, RDS, S3, IAM, CloudWatch</li>
+        <li>Hybrid Cloud (On-Prem & AWS Integration)</li>
+        <li>Oracle VM (OVM) & OLVM</li>
+        <li>Backup, DR strategy & automation</li>
+        <li>Data sync & system automation</li>
+      </ul>
+    </div>
+    <div class="skill-card fade-up" style="transition-delay:0.2s">
+      <div class="skill-icon">🏗️</div>
+      <div class="skill-title">Pre-Sales & Architecture</div>
+      <ul class="skill-items">
+        <li>Solution Design & Architecture</li>
+        <li>HLD / LLD Documentation</li>
+        <li>BoM / BoQ preparation</li>
+        <li>PoC & Technical Presentations</li>
+        <li>Vendor & Partner Management</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header fade-up">
+    <span class="section-num">02 //</span>
+    <h2>Career History</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item fade-up">
+      <div class="timeline-period">JAN 2023 — PRESENT</div>
+      <div class="timeline-role">Network Engineer / IT Solution Architect</div>
+      <div class="timeline-company">Brain Telecommunication Ltd. — NOC (24×7 Operations)</div>
+      <ul class="timeline-bullets">
+        <li>Operated 24×7 NOC supporting enterprise, ISP, and carrier-grade networks</li>
+        <li>L2/L3 support across incidents, service degradations, and outages in SLA environments</li>
+        <li>Real-time fault isolation and root cause analysis across LAN, WAN, and ISP</li>
+        <li>Managed BGP, OSPF, MPLS, VLANs, and IP routing issues</li>
+        <li>Maintained topology diagrams, documentation, and operational SOPs</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-up">
+      <div class="timeline-period">JAN 2019 — DEC 2022</div>
+      <div class="timeline-role">Pre-Sales Solution Architect</div>
+      <div class="timeline-company">Brain Telecommunication Ltd. — Corporate IT Sales</div>
+      <ul class="timeline-bullets">
+        <li>Primary technical interface between customers, sales, and delivery teams</li>
+        <li>Designed end-to-end IT, network, and cloud architectures (on-prem, hybrid, cloud)</li>
+        <li>Recommended technologies from Cisco, AWS, Oracle, Palo Alto, Microsoft, Ubiquiti</li>
+        <li>Supported solution costing, pricing models, and contract negotiations</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-up">
+      <div class="timeline-period">JAN 2015 — DEC 2018</div>
+      <div class="timeline-role">Manager Operations & Planning — Project Manager</div>
+      <div class="timeline-company">Brain Telecommunication Ltd.</div>
+      <ul class="timeline-bullets">
+        <li>Supervised daily optical network operations with ITIL-based procedures</li>
+        <li>Assisted fiber backbone expansion and high-capacity core routing rollout</li>
+        <li>Improved incident response times by 30% through enhanced processes</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-up">
+      <div class="timeline-period">JAN 2009 — DEC 2014</div>
+      <div class="timeline-role">Network Support Engineer — Corporate Support Layer II</div>
+      <div class="timeline-company">Brain Telecommunication Ltd.</div>
+      <ul class="timeline-bullets">
+        <li>Technical support for enterprise clients — routing, switching, wireless</li>
+        <li>Configured Cisco & MikroTik routers, L2/L3 VPNs, and QoS policies</li>
+        <li>Network health monitoring, fault isolation, and capacity reporting</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs">
+  <div class="section-header fade-up">
+    <span class="section-num">03 //</span>
+    <h2>Certifications & Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card fade-up">
+      <div class="cert-badge">🛡️</div>
+      <div>
+        <div class="cert-name">ISC2 Certified in Cybersecurity (CC)</div>
+        <div class="cert-issuer">ISC2 · Issued January 2026</div>
+      </div>
+    </div>
+    <div class="cert-card fade-up" style="transition-delay:0.1s">
+      <div class="cert-badge">☁️</div>
+      <div>
+        <div class="cert-name">AWS Certified Solutions Architect – Associate</div>
+        <div class="cert-issuer">Amazon Web Services · Issued October 2024</div>
+      </div>
+    </div>
+    <div class="cert-card fade-up" style="transition-delay:0.2s">
+      <div class="cert-badge">🔧</div>
+      <div>
+        <div class="cert-name">Cisco CCNA</div>
+        <div class="cert-issuer">Cisco · ID: 399994174114BQCH · 2009</div>
+      </div>
+    </div>
+    <div class="cert-card fade-up" style="transition-delay:0.3s">
+      <div class="cert-badge">🌿</div>
+      <div>
+        <div class="cert-name">JNCIA-EX & JNCIA-ER</div>
+        <div class="cert-issuer">Juniper Networks · Enterprise Switching & Routing · 2009</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem; display:flex; gap:1.5rem; flex-wrap:wrap;">
+    <div class="cert-card fade-up" style="flex:1; min-width:260px; border-color: rgba(124,58,237,0.3)">
+      <div class="cert-badge" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">🎓</div>
+      <div>
+        <div class="cert-name">MPhil in Computer Science</div>
+        <div class="cert-issuer">Institute of Management Sciences, Lahore · 2016</div>
+      </div>
+    </div>
+    <div class="cert-card fade-up" style="flex:1; min-width:260px; transition-delay:0.1s; border-color: rgba(124,58,237,0.3)">
+      <div class="cert-badge" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">📚</div>
+      <div>
+        <div class="cert-name">BS (Hons.) Information Technology</div>
+        <div class="cert-issuer">University of the Punjab, Lahore · 2008</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div id="contact" class="fade-up" style="position:relative;z-index:1;">
+  <div class="section-num" style="margin-bottom:0.75rem">04 //</div>
+  <h2>Let's Connect</h2>
+  <p class="contact-sub">Open to research collaborations, consulting, and new opportunities.</p>
+  <div class="contact-links">
+    <a href="mailto:mh.mubashir@hotmail.com" class="contact-link">
+      <span>✉</span> mh.mubashir@hotmail.com
+    </a>
+    <a href="tel:+923134319997" class="contact-link">
+      <span>📞</span> +92-313-431-9997
+    </a>
+    <a href="https://linkedin.com/in/mubashirlodhi" target="_blank" class="contact-link">
+      <span>💼</span> linkedin.com/in/mubashirlodhi
+    </a>
+    <a href="#" class="contact-link">
+      <span>📍</span> Lahore, Pakistan
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span style="color:var(--accent)">Mubashir Lodhi</span> &nbsp;·&nbsp; Network & Cloud Engineer &nbsp;·&nbsp; Lahore, Pakistan
+</footer>
+
+<script>
+// ── ANIMATED GRID BACKGROUND ──
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, nodes = [], animId;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function initNodes() {
+  nodes = [];
+  const count = Math.floor((W * H) / 18000);
+  for (let i = 0; i < count; i++) {
+    nodes.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.5
+    });
+  }
+}
+
+function drawFrame() {
+  ctx.clearRect(0, 0, W, H);
+  // Update
+  nodes.forEach(n => {
+    n.x += n.vx; n.y += n.vy;
+    if (n.x < 0 || n.x > W) n.vx *= -1;
+    if (n.y < 0 || n.y > H) n.vy *= -1;
+  });
+  // Connections
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 160) {
+        const alpha = (1 - dist/160) * 0.4;
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  // Nodes
+  nodes.forEach(n => {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(0,212,255,0.6)';
+    ctx.fill();
+  });
+  animId = requestAnimationFrame(drawFrame);
+}
+
+resize(); initNodes(); drawFrame();
+window.addEventListener('resize', () => { resize(); initNodes(); });
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
